@@ -1,0 +1,20 @@
+# --- PyTorch with CUDA 12.1 Support ---
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch>=2.1.0
+torchvision
+torchaudio
+
+# --- Web Framework & Server ---
+fastapi
+uvicorn[standard]
+python-multipart
+
+# --- NLP & Model Handling ---
+huggingface_hub
+tokenizers
+pandas
+pyarrow
+
+# --- Utilities ---
+pydantic
+pydantic-settings

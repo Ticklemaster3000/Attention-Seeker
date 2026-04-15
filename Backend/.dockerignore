@@ -1,0 +1,15 @@
+# ==========================================
+# Backend (Python / Transformer)
+# ==========================================
+/__pycache__/
+/.idea/
+/.venv/
+/src/__pycache__/
+/tokenizer/__pycache__/
+/data/__pycache__/
+
+# Data and Large Models
+/data/EN_FR.csv
+/models/
+/tokenizer/englishTokenizer
+/tokenizer/frenchTokenizer

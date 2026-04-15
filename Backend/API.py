@@ -3,6 +3,7 @@ import torch
 import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from huggingface_hub import hf_hub_download
 from tokenizer.Tokenizer import *
 from src.Transformer import *
 from config import *
@@ -58,11 +59,25 @@ def hookUp():
         decoder.multiHeadedAttention2.register_forward_hook(get_attention_hook(f"decoder-cross-attn-{i}"))
 
 def getModel():
-    latest_file = sorted(os.listdir(MODEL_FOLDER))[-1]
-    path = os.path.join(MODEL_FOLDER, latest_file)
+    os.makedirs(MODEL_FOLDER, exist_ok=True)
+    files = os.listdir(MODEL_FOLDER)
+    
+    if not files:
+        path = hf_hub_download(
+            repo_id=MODEL_URL,
+            filename="model-0.pt",
+            local_dir=MODEL_FOLDER
+        )
+    else:
+        latest_file = sorted(files)[-1]
+        path = os.path.join(MODEL_FOLDER, latest_file)
+    
     m = initTransformer(D_MODEL, VOCAB_SIZE, HEADS, LAYERS, DROPOUT)
     checkpoint = torch.load(path, map_location=device)
-    m.load_state_dict(checkpoint["model_state_dict"])
+    
+    state_dict = checkpoint["model_state_dict"] if "model_state_dict" in checkpoint else checkpoint
+    m.load_state_dict(state_dict)
+    
     m.to(device)
     m.eval()
     return m
