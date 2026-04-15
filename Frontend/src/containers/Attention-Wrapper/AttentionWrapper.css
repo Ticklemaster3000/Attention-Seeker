@@ -1,0 +1,32 @@
+.attention-self,
+.attention-multi {
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.attention-self::before,
+.attention-multi::before {
+    content: "";
+    position: absolute;
+    top: calc(100% - 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    border: 3px solid black;
+}
+
+.attention-self::before {
+    width: 80%;
+    height: 20px;
+    border-top: none;
+    border-radius: 0 0 15px 15px;
+}
+
+.attention-multi::before {
+    width: 16.67%;
+    height: 40px;
+    left: 25%;
+    border-top: none;
+    border-bottom: none;
+}

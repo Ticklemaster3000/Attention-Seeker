@@ -1,0 +1,44 @@
+.add-icon {
+  z-index: inherit;
+  width: 12px;
+  height: 12px;
+  padding: 4px;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 12px;
+}
+
+.residual-wrapper,
+.reverse-residual-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 15px;
+}
+
+.residual-wrapper::before,
+.reverse-residual-wrapper::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: calc(1em + 12px);
+  width: 49%;
+  height: calc(100% - 1.5em - 12px);
+  border: 3px solid black;
+}
+
+.residual-wrapper::before {
+  left: 0;
+  border-right: none;
+  border-radius: 15px 0 0 15px;
+}
+
+.reverse-residual-wrapper::before {
+  left: 50%;
+  border-left: none;
+  border-radius: 0 15px 15px 0;
+}

@@ -1,0 +1,23 @@
+.top-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.search-navbar-container {
+    display: flex;
+    gap: 30px;
+    align-items: flex-end;
+}
+
+.floating-button {
+    display: flex;
+    position: fixed;
+    padding-top: 15px;
+    padding-left: 15px;
+    z-index: 2;
+}

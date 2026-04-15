@@ -1,0 +1,130 @@
+:root {
+    --font-primary: 'Itern', sans-serif;
+}
+
+* {
+    font-family: var(--font-primary) !important;
+}
+
+.background,
+.collapsed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--base-color);
+}
+
+.background {
+    z-index: 999999;
+    scale: 1;
+    opacity: 1;
+}
+
+.collapsed {
+    pointer-events: none;
+    scale: 0;
+    opacity: 0;
+}
+
+.animate-grow {
+    display: flex;
+    scale: 0;
+    opacity: 0;
+    animation: grow 0.5s ease-out forwards;
+}
+
+.animate-shrink {
+    display: flex;
+    scale: 1;
+    opacity: 1;
+    animation: shrink 0.5s ease-out forwards;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.background .card-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.background .text-title {
+    font-size: 3rem;
+}
+
+.background .text-body {
+    max-width: 600px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.loader {
+    position: relative;
+    display: block;
+    width: 400px;
+    height: var(--height-of-loader);
+    margin-top: 40px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    --height-of-loader: 4px;
+    --loader-color: #0071e2;
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--loader-color);
+    border-radius: 30px;
+    animation: moving 1s ease-in-out infinite;
+}
+
+@keyframes grow {
+    from {
+        scale: 0;
+        opacity: 0;
+        border-radius: 50px;
+    }
+    to {
+        scale: 1;
+        opacity: 1;
+        border-radius: 0px;
+    }
+}
+
+@keyframes shrink {
+    from {
+        scale: 1;
+        opacity: 1;
+        border-radius: 0px;
+    }
+    to {
+        scale: 0;
+        opacity: 0;
+        border-radius: 50px;
+    }
+}
+
+@keyframes moving {
+    50% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+        right: 0;
+        left: unset;
+    }
+}

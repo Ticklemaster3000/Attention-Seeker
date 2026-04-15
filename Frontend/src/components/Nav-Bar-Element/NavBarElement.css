@@ -1,0 +1,62 @@
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-label {
+    margin-left: 5px;
+    font-family: "Itern", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #999;
+    letter-spacing: 1px;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.nav-icon-btn {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.nav-icon-btn:hover:not(:disabled) {
+    background: #e9ecef;
+}
+
+.nav-icon-btn img {
+    width: auto;
+    height: 14px;
+}
+
+.rounded-input {
+    width: 60px;
+    padding: 8px 0;
+    border: none;
+    background: transparent;
+    font-family: "Itern", sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+}
+
+.word-display {
+    width: 120px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #3b82f6;
+}

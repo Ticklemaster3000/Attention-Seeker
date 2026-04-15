@@ -1,0 +1,73 @@
+.layout-vertical {
+    display: flex;
+    align-items: stretch;
+    gap: 0.2rem;
+    padding: 1rem;
+    width: fit-content;
+}
+
+.bordered {
+    border: 2px solid #c3c6ce;
+}
+
+.stack-sidebar-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+}
+
+.stack-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 1rem;
+    height: fit-content;
+    border-radius: 15px;
+}
+
+.stack-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background-color: black;
+}
+
+.xshift::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: calc(50% + 0.6rem);
+    transform: translateX(-50%);
+    width: 10px;
+    height: 100%;
+    background-image: 
+        linear-gradient(to bottom right, transparent 50%, black 50%),
+        linear-gradient(to bottom left, transparent 50%, black 50%),
+        linear-gradient(to bottom right, transparent 50%, black 50%),
+        linear-gradient(to bottom left, transparent 50%, black 50%);
+    background-position: top left, top right, bottom left, bottom right;
+    background-size: 5px 30px;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+.xshift::before {
+    top: 30px;
+    left: calc(50% + 0.6rem);
+    height: calc(100% - 20px);
+}

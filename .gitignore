@@ -1,0 +1,50 @@
+# ==========================================
+# General / IDEs
+# ==========================================
+.idea/
+.DS_Store
+*.sw?
+
+# ==========================================
+# Backend (Python / Transformer)
+# ==========================================
+/Backend/__pycache__/
+/Backend/.idea/
+/Backend/.venv/
+/Backend/src/__pycache__/
+/Backend/tokenizer/__pycache__/
+/Backend/data/__pycache__/
+
+# Data and Large Models
+/Backend/data/EN_FR.csv
+/Backend/models/
+/Backend/tokenizer/englishTokenizer
+/Backend/tokenizer/frenchTokenizer
+
+# ==========================================
+# Frontend (React)
+# ==========================================
+/Frontend/node_modules/
+/Frontend/dist/
+/Frontend/dist-ssr/
+/Frontend/.idea/
+/Frontend/*.local
+
+# Logs
+/Frontend/logs/
+/Frontend/*.log
+/Frontend/npm-debug.log*
+/Frontend/yarn-debug.log*
+/Frontend/yarn-error.log*
+/Frontend/pnpm-debug.log*
+
+# Editor Files
+/Frontend/.vscode/*
+!/Frontend/.vscode/extensions.json
+/Frontend/*.suo
+/Frontend/*.ntvs*
+/Frontend/*.njsproj
+/Frontend/*.sln
+
+# Legacy Files
+/Legacy/

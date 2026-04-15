@@ -1,0 +1,15 @@
+DATASET_URL = "hf://datasets/Helsinki-NLP/opus_books/en-fr/train-00000-of-00001.parquet"
+DATASET_PATH = r"D:\Redemption\TransformerFromScratch\Backend\data\EN_FR.csv"
+VOCAB_SIZE = 30000
+MAX_SEQ_LEN = 5000
+D_MODEL = 512
+MODEL_FOLDER = r"D:\Redemption\TransformerFromScratch\Backend\models"
+LR = 1e-4
+PRE_LOAD = None
+EPOCHS = 16
+BATCH_SIZE = 4
+ENGLISH_TOKENIZER_PATH = r"D:\Redemption\TransformerFromScratch\Backend\tokenizer\englishTokenizer"
+FRENCH_TOKENIZER_PATH = r"D:\Redemption\TransformerFromScratch\Backend\tokenizer\frenchTokenizer"
+HEADS = 8
+LAYERS = 6
+DROPOUT = 0.1
