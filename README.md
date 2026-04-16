@@ -12,6 +12,9 @@ The core idea of this project, was to get accustomed to the architecture and the
 2. **[Table of Contents](#2-table-of-contents)**
 3. **[Architecture Description and Visualizations](#3-architecture-description-and-visualizations)**
     - 3.1. **[Tokenization Model](#31-tokenization-model)**
+        - 3.1.1 **[Word Level Tokenizers](#1-word-level-tokenizers)**
+        - 3.1.2 **[BPE (Byte Pair Encoding)](#2-bpe-byte-pair-encoding)**
+        - 3.1.3 **[BPE with ReGex](#3-bpe-with-regex-gpt-2-style)**
     - 3.2 **[Embedding Model](#32-embedding-model)**
     - 3.3 **[Positional Encoding](#33-positional-encoding)**
     - 3.4 **[Attention Mechanism](#34-attention-mechanism)**
@@ -45,7 +48,7 @@ Tokenization is the first step in the entire pipeline. This layer converts raw s
 
 There are 3 types of tokenizers I explored and coded up:
 
-**1. Word Level Tokenizers:**
+#### **1. Word Level Tokenizers:**
 
 This is the tokenizer that the entire pipeline runs on currently. It works by spliting sentences on whitespaces and punctuations.
 
@@ -84,7 +87,7 @@ def getOrBuildTokenizer(tokenizerPath, ds, lang):
     return tokenizer
 ```
 
-**2. BPE:**
+#### **2. BPE (Byte Pair Encoding):**
 
 BPE is the a relatively simpler version of the tokenizers used by most modern Transformers. It breaks down rare words into meaningful sub-units (e.g., "smartest" = "smart" + "est").
 
@@ -114,7 +117,7 @@ def train(self, text, verbose=False):
         self.vocab[idx] = self.vocab[p0] + self.vocab[p1]
 ```
 
-**3. BPE with Regex (GPT-2 Style):**
+#### **3. BPE with Regex (GPT-2 Style):**
 * **Training Procedure:** This adds a pre-segmentation step using a specific Regex pattern. Before merging, the text is split into chunks based on categories (words, numbers, or contractions like 's, 't, 're). BPE merging is then strictly restricted to happen within these chunks, never across them.
 * **Advantage:** By preventing merges between distinct categories (like a letter and a punctuation mark), the tokenizer maintains better structural integrity of the language.
 
