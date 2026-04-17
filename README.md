@@ -1,10 +1,12 @@
 # Attention-Seeker: A From-Scratch Transformer Implementation and Attention Visualizer
 ## 1. Overview:
-Transformer-Vis is a comprehensive Transformer Model trained for Translation. It is a from-scratch implementation of the Transformer architecture as proposed in "Attention Is All You Need." 
+Attention-Seeker is a comprehensive Transformer Model trained for Translation. It is a from-scratch implementation of the Transformer architecture as proposed in "Attention Is All You Need." 
 
 Unlike standard implementations that utilize high-level abstractions, this project is a ground-up reconstruction of the core architecture. This includes the manual implementation of Multi-Head Attention, Positional Encodings, and specialized masking logic. A React-based frontend provides real-time visualization of attention weights, mapping the linguistic alignment between source and target sequences during inference.
 
 The core idea of this project, was to get accustomed to the architecture and the mathematics behind transformer models, as a stepping stone to further research on topics such as State Space Machines (SSMs), Mamba, etc.
+
+![Live-Demo](./Documentation-gifs/live-demo.gif)
 
 ## 2. Table of Contents:
 
@@ -57,6 +59,8 @@ This is the tokenizer that the entire pipeline runs on currently. It works by sp
 * **Drawback-2:** It cannot group and cluster according to similar root words, hence has a very large vocabulary size. (E.g. it classifies win and winning as 2 seperate tokens)
 * **Then why was this chosen?** This model was the simplest and fastest to train, hence was chosen due to computational limitations.
 
+![Word Level Tokenizers](https://media.geeksforgeeks.org/wp-content/uploads/20250730102506095172/tokenization.webp)
+
 **Implementation:**
 ```python
 from data.Dataset import *
@@ -94,6 +98,7 @@ BPE is the a relatively simpler version of the tokenizers used by most modern Tr
 * **Training Procedure:** It starts with a base vocabulary of individual characters. It then iteratively identifies the most frequently occurring adjacent pair of tokens in the corpus and merges them into a single new token. This process continues for a fixed number of `merges` until the desired `vocab_size` is reached.
 * **Drawback:** While it reduces the frequency of [UNK] tokens, it can still fail if it encounters a rare Unicode character (like a specific emoji or obscure script) that wasn't in the initial character-level base vocabulary.
 
+![Byte Pair Encoding](https://media.licdn.com/dms/image/v2/D5612AQHDbUcb--wFeg/article-cover_image-shrink_720_1280/B56ZaqDJa6GgAM-/0/1746609674567?e=2147483647&v=beta&t=xB5HsO8g6smD7VlGmsFV_Sf7gcImIHjCNZjMxJk3DY8)
 **Implementation:**
 ```python
 # Full code in TokenizerCustom.py
@@ -175,6 +180,8 @@ The user can interact, find and explore the vector embeddings of different words
 
 * A dedicated gallery provides a scrollable interface to compare the embeddings of the entire vocabulary.
 
+![Embedding Visualisation](./Documentation-gifs/embedding.gif)
+
 ### 3.3 Positional Encoding:
 #### **Technical Explanations:**
 The Positional Encoding layer, is a completely deterministic mathematical layer. It adds information about the position of the token within the sentence / sequence. 
@@ -218,6 +225,9 @@ The gradient diagram below shows a continuous spectrum of the positional encodin
 * The `Y-Axis` represents items in each of the vector
 
 Hence a slice on pixel value `x=n` will give you the positional encoding for a token in the $n^{th}$ position.
+
+![Positional Encoding Visualisation](./Documentation-gifs/positional.gif)
+![Positional Matrix Visualisation](./Documentation-gifs/positional_matrix.png)
 
 ### 3.4 Attention Mechanism:
 #### **Tehnical Explanations:**
@@ -264,6 +274,8 @@ However what makes it truly powerful, is if the model is able to look at the wor
 
 This exact problem is solved using **Cross Attention**. In Cross Attention the input for the Query vector comes from the decoder block (the section forming the new translated sequence) while the inputs for the Key and Value vector come from the encoder block (the section which condenses and extracts context from the original sequence). 
 
+![Self and Cross Attention](https://media.licdn.com/dms/image/v2/D5622AQES_5kWgZ8O4Q/feedshare-shrink_800/feedshare-shrink_800/0/1719243502822?e=2147483647&v=beta&t=RKq2R7bzBIufBucIvrfLTSi6nvq2N4vIrpn5cGaN6-s)
+
 ```python
 #Self Attention
 self.multiHeadedAttention(x, x, x, tgt_mask)
@@ -272,7 +284,7 @@ self.multiHeadedAttention(x, x, x, tgt_mask)
 self.multiHeadedAttention(x, context, context, tgt_mask)
 ```
 
-#### **HOW MUCH HEAD DO YOU NEED?**
+#### **HOW MANY HEADS DO YOU NEED?**
 
 As the name of the module suggests, the architecture proposed in the *"All you need is Attention"* paper is a **Multi Headed Attention Architecture**.
 
@@ -281,6 +293,8 @@ As the name of the module suggests, the architecture proposed in the *"All you n
 * The `d_model` (e.g. 512) is split into $k$ smaller heads (e.g. 8 heads of 64 dimensions each).
 * This "split" approach ensures that the total number of parameters and the computational cost are equivalent to a single-head attention with full dimensionality, while significantly increasing the model's ability to learn complex patterns in parallel.
 * The results from all heads are concatenated to produce the final output.
+
+![Multi Headed Architecture](https://towardsdatascience.com/wp-content/uploads/2021/01/175EUBJLaqAMcDjgwWVh-_A.png)
 
 ```python
 # (batch, seq, dmodel) --> (batch, seq, k, d_k) --> (batch, k, seq, d_k)
@@ -303,6 +317,8 @@ There are two distinct types of maskings:
 
 **Mathematical Implementation:** Masking is achieved by adding a value of $-\infty$ (or a very large negative number) to the attention scores before the softmax layer.
 
+![Attention Masking](https://i.ytimg.com/vi/oUhGZMCTHtI/maxresdefault.jpg)
+
 #### **PUTTING EVERYTHING TOGETHER:**
 
 The final Mathematical formula for attention is:
@@ -318,6 +334,8 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T + \text{Mask}}{\sqr
 | **Mask** | Attention Mask | $L \times L$ | Applied to $QK^T$ to nullify padding or future tokens ($-\infty$). |
 | **Weights** | Softmax Output | $L \times L$ | The probability distribution defining the relationship between all tokens. |
 | **Output** | Final Context | $L \times d_{v}$ | The weighted sum of Values; the new representation for each token. |
+
+![Everything put Together](https://miro.medium.com/1*PiZyU-_J_nWixsTjXOUP7Q.png)
 
 #### **COMPUTATION AND COMPLEXITY:**
 
@@ -384,6 +402,8 @@ def attention(self, query, key, value, mask=None):
 * By hovering over any token in the input or output blocks, the interface **isolates the specific connections for that token.**
 * The magnitude of the attention weights is represented by the **thickness and opacity** of the connecting lines, providing an intuitive "map" of the model's semantic focus.
 
+![Attention-gif](./Documentation-gifs/attention.gif)
+
 ### 3.5 Feed Forward and Projection Layer:
 #### **Technical Explanations:**
 * All the feed-forward blocks in the network operate on each token embedding independently and identically.
@@ -438,6 +458,8 @@ class projectionLayer(nn.Module):
 * Instead of raw numbers, weights are visualized using a diverging colors (Red and Blue).
 * By hovering over any edge or node in the network graph, the UI reveals the precise floating-point value of that weight. This helps probe the actual matrices ($W_1, W_2$).
 
+![Feed-Forward-gif](./Documentation-gifs/feedforward.gif)
+
 ### 3.6 Normalization Layer:
 #### **Technical Explanations:**
 Most machine learning models work better with normalized inputs, i.e. inputs that have a `mean = 0` and a `standard deviation = 1`.
@@ -477,6 +499,8 @@ The front-end provides an excellent visualisation for the compressive effect as 
 
 * Instead of viewing embeddings as static lists of numbers, the interface converts them into **discrete frequency histograms.** This allows users to observe the "shape" of the data as it flows through the network.
 * The interface displays the learned **$\gamma$ (Scaling) and $\beta$ (Shifting)** parameters in real-time. This reveals how the model is mathematically re-centering and re-scaling the data.
+
+![Normalization-gif](./Documentation-gifs/normalization.gif)
 
 ### 3.7 Softmax:
 #### **Technical Explanations:**
@@ -543,6 +567,8 @@ The front-end for this layer is an interactive display of the top-5 most likely 
 * Each candidate is paired with a real-time histogram representing its relative probability. This allows users to see if the model is highly confident in its choice (a single tall bar) or if it is, hesitant between multiple options (several medium-sized bars).
 * A scrollable timeline allows users to navigate back and forth through the decoding sequence
 
+![Autoregression-gif](./Documentation-gifs/autoregression.gif)
+
 ### 3.8 Connecting all the parts:
 The entire transformer architecture works by stacking all these layers and blocks. Here is the chronological flow of a single inference step:
 
@@ -604,6 +630,8 @@ The entire transformer architecture works by stacking all these layers and block
 | **Decoder Stack** | Masked-Attention $\rightarrow$ Cross-Attention $\rightarrow$ FFN | 6 Layers |
 | **Final Output** | Linear Projection $\rightarrow$ Softmax | - |
 
+![Entire Architecture](https://miro.medium.com/v2/resize:fit:720/0*H1Akxj93iOTGMjNo.png)
+
 ## 4. Training Details:
 ### Training Data
 1. Dataset: Helsinki-NLP/opus_books (English-French subset)
@@ -659,8 +687,8 @@ Prerequisites: Docker and Docker Compose installed.
 
 **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/transformer-viz.git
-cd transformer-viz
+git clone https://github.com/nullPointer0x43/Attention-Seeker.git
+cd Attention-Seeker
 ```
 
 **2. Launch the Stack**
